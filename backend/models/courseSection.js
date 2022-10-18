@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const courseSectionSchema = new mongoose.Schema({
     courseSectionID: {
-        description: String,
+        type: String,
         required: true
     },
     courseID: {
@@ -20,4 +20,4 @@ const courseSectionSchema = new mongoose.Schema({
 });
 
 
-module.exports = mongoose.model("CourseSection", courseSchema);
+module.exports = mongoose.model("CourseSection", courseSectionSchema);
