@@ -1,0 +1,12 @@
+.button{
+    text-align: center;
+    background-color: #ff3a33;
+    border: 2px solid #111111;
+    width: 20rem;
+    border-radius: 5px;
+    &:hover{
+        transition-duration: 0.3s;
+        box-shadow: 1px 1px 3px 3px #eeeeee;
+        font-weight: bold;
+    }
+}
