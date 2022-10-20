@@ -1,11 +1,15 @@
 const mongoose = require("mongoose");
 
 const courseSchema = new mongoose.Schema({
-    courseID: {
+    _id: {
         type: String,
         required: true
     },
     name: {
+        type: String,
+        required: true
+    },
+    description: {
         type: String,
         required: true
     },
@@ -17,13 +21,13 @@ const courseSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    description: {
+    url: {
         type: String,
         required: true
     },
-    prerequisites: { 
-        type: [String],
-        required: true
+    prerequisites: {
+        type: String,
+        required: false
     }
 });
 

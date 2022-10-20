@@ -1,5 +1,5 @@
-// Main Dependencies: express, mongoose, bodyParser
-const express = require('express');
+const express = require("express");
+const connectDB = require("./config/db");
 const app = express();
 const mongoose = require('mongoose');
 const connectDB = require("./config/db.js");
@@ -11,35 +11,16 @@ const CourseSection = require("./models/courseSection");
 const Student = require("./models/student");
 const { response } = require('express');
 
+connectDB();
 
-//Basic Get Methods
-app.get("/students/:GTID", async(req, res) => { //access user_id with req.params.user_id
-  await Student.findOne({id: req.params.GTID}, (err, result) =>  {
-    if(err) {
-      console.log("There was an error processing the /courses/:GTID request");
-    } else if(!result) {
-      console.log("No student exists matching the ID given.");
-    } else {
-      res.send(result);
-    }
-  });
+app.get("/", (req, res) => {
+  res.send("Hello World!");
 });
-app.get("/courses/:courseID", async(req, res) => { //access user_id with req.params.user_id
-  await Course.findOne({id: req.params.courseID}, (err, result) =>  {
-    if(err) {
-      console.log("There was an error processing the /courses/:courseID request");
-    } else if(!res) {
-      console.log("No course exists matching the ID given.");
-    } else {
-      res.send();
-    }
-  });
-});
-app.get("/courseSections/:courseSectionID", async(req, res) => { //access user_id with req.params.user_id
-  await Course.findOne({id: req.params.courseSectionID}, (err, result) =>  {
-    if(err) {
+app.get("/courseSections/:courseSectionID", async (req, res) => { //access user_id with req.params.user_id
+  await Course.findOne({ id: req.params.courseSectionID }, (err, result) => {
+    if (err) {
       console.log("There was an error processing the /courseSections/:courseSectionID request");
-    } else if(!result) {
+    } else if (!result) {
       console.log("No course exists matching the ID given.");
     } else {
       res.send(result);
@@ -49,13 +30,13 @@ app.get("/courseSections/:courseSectionID", async(req, res) => { //access user_i
 
 
 //Basic Post Methods
-app.post("/createstudent", async(req, res) => {
-  await Student.findOne({GTID: req.body.GTID}, (err, result) => {
+app.post("/createstudent", async (req, res) => {
+  await Student.findOne({ GTID: req.body.GTID }, (err, result) => {
     let response;
-    if(err) {
+    if (err) {
       response = "There was an error finding a student. Please check server.js";
-    } else if(result) {
-      response ="This student already exists. Try using an update post API instead.";
+    } else if (result) {
+      response = "This student already exists. Try using an update post API instead.";
     } else {
       const newStudent = new Student({
         GTID: req.body.GTID,
@@ -69,16 +50,16 @@ app.post("/createstudent", async(req, res) => {
       response = "New student added successfully!";
     }
     console.log(response);
-    res.send({message: response});
+    res.send({ message: response });
   });
 });
-app.post("/createcourse", async(req, res) => {
-  await Student.findOne({courseSectonID: req.body.courseID}, (err, result) => {
+app.post("/createcourse", async (req, res) => {
+  await Student.findOne({ courseSectonID: req.body.courseID }, (err, result) => {
     let response;
-    if(err) {
+    if (err) {
       response = "There was an error finding a course. Please check server.js";
-    } else if(result) {
-      response ="This course already exists. Try using an update post API instead.";
+    } else if (result) {
+      response = "This course already exists. Try using an update post API instead.";
     } else {
       const newCourse = new Student({
         courseID: req.body.courseID,
@@ -92,16 +73,16 @@ app.post("/createcourse", async(req, res) => {
       response = "New course added successfully!";
     }
     console.log(response);
-    res.send({message: response});
+    res.send({ message: response });
   });
 });
-app.post("/createcoursesection", async(req, res) => {
-  await Student.findOne({courseSectionID: req.body.courseSectionID}, (err, result) => {
+app.post("/createcoursesection", async (req, res) => {
+  await Student.findOne({ courseSectionID: req.body.courseSectionID }, (err, result) => {
     let response;
-    if(err) {
+    if (err) {
       response = "There was an error finding a course section. Please check server.js";
-    } else if(result) {
-      response ="This course section already exists. Try using an update post API instead.";
+    } else if (result) {
+      response = "This course section already exists. Try using an update post API instead.";
     } else {
       const newCourseSection = new Student({
         courseSectonID: req.body.courseSectionID,
@@ -113,7 +94,7 @@ app.post("/createcoursesection", async(req, res) => {
       response = "New course section added successfully!";
     }
     console.log(response);
-    res.send({message: response});
+    res.send({ message: response });
   });
 });
 
@@ -122,6 +103,6 @@ app.get("/", (req, res) => {
 });
 const port = process.env.PORT || 8000;
 app.listen(port, (err) => {
-  if(err){return console.log(err);} 
+  if (err) { return console.log(err); }
   console.log("Express Server listening on port " + port);
 });
