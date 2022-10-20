@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
+const Course = require("../models/course");
 
 const studentSchema = new mongoose.Schema({
-    GTID: {
+    _id: {
         type: Number,
         required: true
     },
@@ -13,21 +14,33 @@ const studentSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    major: {
+    email: {
         type: String,
+        required: true
+    },
+    major: {
+        type: [String],
         required: true
     },
     earnedCredits: {
         type: Number,
         required: true
     },
-    GPA: {
+    gpa: {
         type: Number,
         required: true
     },
-    coursesTaken: { /* these will correspond to ID identifiers*/
-        type: [{String, String, Number}],
-        required: true
-    }
+    coursesTaken: [
+        {
+            type: String,
+            ref: 'Course',
+            semester: {
+                type: String,
+                required: true
+            },
+            grade: String
+        }
+    ]
 });
+
 module.exports = mongoose.model("Student", studentSchema);
