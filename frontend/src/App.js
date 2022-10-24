@@ -1,7 +1,11 @@
-import Button from './components/button.component.jsx'
+import Button from './components/button.component';
 
 function App() {
-  return <Button text="hello" />;
+  return (
+    <div className="App">
+      <Button text="hello world"></Button>
+    </div>
+  );
 }
 
 export default App;
