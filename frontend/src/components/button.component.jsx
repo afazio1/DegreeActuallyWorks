@@ -1,9 +1,14 @@
-import './button.style.css'
+import './button.styles.scss'
+import { useNavigate } from 'react-router-dom'
 
-const Button = ({ text }) => {
+const Button = (props) => {
+    let navigate = useNavigate()
+
     return (
-        <button className="button">
-            { text }
+        <button className="button" onClick={
+            props.to ? navigate(props.to) : props.onClick
+        }>
+            { props.children }
         </button>
     )
 }
