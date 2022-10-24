@@ -1,7 +1,7 @@
 import './userAvatar.styles.scss'
 import React from 'react'
 
-class UserAvatarImage extends React.Component {
+class UserAvatar extends React.Component {
     render() {
         return (
             <div className='user-avatar'>
@@ -13,4 +13,4 @@ class UserAvatarImage extends React.Component {
     }
 }
 
-export default UserAvatarImage
+export default UserAvatar
