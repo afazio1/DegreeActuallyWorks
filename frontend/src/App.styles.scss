@@ -1,0 +1,22 @@
+body {
+    margin: 0;
+}
+
+a {
+    cursor: pointer;
+    text-decoration: none;
+    color: unset;
+    &:hover {
+        color: #135a90;
+        text-decoration: underline;
+    }
+}
+
+div#root {
+    font-family: Verdana, sans-serif;
+    font-size: 18px;
+}
+
+.bold {
+    font-weight: bold;
+}
