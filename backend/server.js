@@ -80,7 +80,7 @@ app.post("/createcourse", async(req, res) => {
     } else if(result) {
       response ="This course already exists. Try using an update post API instead.";
     } else {
-      const newCourse = new Student({
+      const newCourse = new Course({
         courseID: req.body.courseID,
         name: req.body.name,
         creditHours: req.body.creditHours,
