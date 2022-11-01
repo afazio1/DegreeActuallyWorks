@@ -100,6 +100,22 @@ app.post("/createcourse", async (req, res) => {
         res.send({ message: response });
     });
 });
+
+app.post("/studentcourses", async (req, res) => {
+    await Student.findOne({coursesTaken: req.params.coursesTaken}, (err, result) => {
+        let response;
+        if (err) {
+            response = "There was an error finding courses in progress. Please check server.js";
+        } else if (!result){
+            response = "There are currently no courses in progress.";
+        } else {
+            res.send(response);
+        }
+    });
+});
+
+//route that returns all the user's courses
+
 // app.post("/createcoursesection", async (req, res) => {
 //     await Student.findOne({ courseSectionID: req.body.courseSectionID }, (err, result) => {
 //         let response;
