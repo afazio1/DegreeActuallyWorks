@@ -78,27 +78,35 @@ app.post("/createcourse", async (req, res) => {
         res.send({ message: response });
     });
 });
-app.post("/createcoursesection", async (req, res) => {
-    await Student.findOne({ courseSectionID: req.body.courseSectionID }, (err, result) => {
-        let response;
-        if (err) {
-            response = "There was an error finding a course section. Please check server.js";
-        } else if (result) {
-            response = "This course section already exists. Try using an update post API instead.";
-        } else {
-            const newCourseSection = new Student({
-                courseSectonID: req.body.courseSectionID,
-                courseID: req.body.courseID,
-                section: req.body.section,
-                professorName: req.body.professorName
-            });
-            newCourseSection.save();
-            response = "New course section added successfully!";
-        }
-        console.log(response);
-        res.send({ message: response });
-    });
-});
+// app.post("/createcoursesection", async (req, res) => {
+//     await Student.findOne({ courseSectionID: req.body.courseSectionID }, (err, result) => {
+//         let response;
+//         if (err) {
+//             response = "There was an error finding a course section. Please check server.js";
+//         } else if (result) {
+//             response = "This course section already exists. Try using an update post API instead.";
+//         } else {
+//             const newCourseSection = new Student({
+//                 courseSectonID: req.body.courseSectionID,
+//                 courseID: req.body.courseID,
+//                 section: req.body.section,
+//                 professorName: req.body.professorName
+//             });
+//             newCourseSection.save();
+//             response = "New course section added successfully!";
+//         }
+//         console.log(response);
+//         res.send({ message: response });
+//     });
+// });
+
+// probably don't need?
+
+
+//TODO (once we have a schema?)
+//courses in progress
+//courses taken
+//requirements based on majors
 
 app.get("/", (req, res) => {
     res.send("Hello World!");
