@@ -101,16 +101,10 @@ app.post("/createcourse", async (req, res) => {
     });
 });
 
-app.post("/studentcourses", async (req, res) => {
-    await Student.findOne({coursesTaken: req.params.coursesTaken}, (err, result) => {
+app.post("/studentcourses", async (req, res) => { //needs to be modified, querying student.js for all courses
+    await Student.findOne({GTID: req.params.GTID}, (coursesTaken: 1) => {
         let response;
-        if (err) {
-            response = "There was an error finding courses in progress. Please check server.js";
-        } else if (!result){
-            response = "There are currently no courses in progress.";
-        } else {
-            res.send(response);
-        }
+        res.send({message: response});
     });
 });
 
