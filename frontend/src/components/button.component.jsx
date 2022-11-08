@@ -1,13 +1,18 @@
 import './button.styles.scss'
-import { redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 export default function Button(props) {
-
-    return (
-        <button className="button" onClick={
-            props.to ? () => redirect(props.to) : props.onClick
-        }>
-            { props.children }
-        </button>
-    )
+    if (props.to) {
+        return (
+            <Link className="button" to={props.to}>{props.children}</Link>
+        )
+    } else {
+        return (
+            <button className="button" onClick={
+                props.onClick
+            }>
+                { props.children }
+            </button>
+        )
+    }
 }
