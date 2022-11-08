@@ -83,9 +83,9 @@ class TopBar extends React.Component {
                                         {this.user.gpa}
                                     </div>
                                 </div>
-                                <Button className="more-info-button" to="/user">
+                                <Link className="more-info-button" to="/user">
                                     More Info
-                                </Button>
+                                </Link>
                             </div>
                         </div>
                     </div>

@@ -2,16 +2,12 @@ const express = require("express");
 const connectDB = require("./config/db");
 const app = express();
 const mongoose = require('mongoose');
-const connectDB = require("./config/db.js");
 const bodyParser = require("body-parser");
 const jsonParser = bodyParser.json();
 connectDB();
 const Course = require("./models/course");
-const CourseSection = require("./models/courseSection");
 const Student = require("./models/student");
 const { response } = require('express');
-
-connectDB();
 
 connectDB();
 
@@ -99,6 +95,27 @@ app.post("/createcoursesection", async (req, res) => {
         res.send({ message: response });
     });
 });
+
+app.post("/attemptlogin", jsonParser, (req, res) => {
+    Student.findOne({GTID: req.body.GTID}, (err, response) => {
+        if(err) {
+            console.log(err);
+            res.json({message: "error"});
+        } else if(!response) {
+            res.json({message: "no user found"});
+        } else {
+            res.json({message: "success", user: response});
+        }
+    });
+});
+
+
+
+
+
+
+
+
 
 app.get("/", (req, res) => {
     res.send("Hello World!");
