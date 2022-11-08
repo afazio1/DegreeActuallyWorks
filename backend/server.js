@@ -15,13 +15,22 @@ connectDB();
 
 connectDB();
 
-app.get("/", (req, res) => {
-    res.send("Hello World!");
-});
-app.get("/courseSections/:courseSectionID", async (req, res) => { //access user_id with req.params.user_id
-    await Course.findOne({ id: req.params.courseSectionID }, (err, result) => {
+// app.get("/courseSections/:courseSectionID", async (req, res) => { //access user_id with req.params.user_id
+//     await Course.findOne({ id: req.params.courseSectionID }, (err, result) => {
+//         if (err) {
+//             console.log("There was an error processing the /courseSections/:courseSectionID request");
+//         } else if (!result) {
+//             console.log("No course exists matching the ID given.");
+//         } else {
+//             res.send(result);
+//         }
+//     });
+// });
+
+app.get("/courseID", async (req, res) => { //access user_id with req.params.user_id
+    await Course.findOne({ id: req.params.id }, (err, result) => {
         if (err) {
-            console.log("There was an error processing the /courseSections/:courseSectionID request");
+            console.log("There was an error processing the /courseID request");
         } else if (!result) {
             console.log("No course exists matching the ID given.");
         } else {
@@ -30,6 +39,18 @@ app.get("/courseSections/:courseSectionID", async (req, res) => { //access user_
     });
 });
 
+app.get("/studentID", async (req, res) => {
+    await Student.findOne({ GTID: req.body.GTID}, (err, result) => {
+        let response;
+        if (err) {
+            console.log("There was an error finding a student. Please check server.js");
+        } else if (!result) {
+            console.log("No student exists matching the ID given.");
+        } else {
+            res.send(result);
+        }
+    })
+})
 
 //Basic Post Methods
 app.post("/createstudent", async (req, res) => {
@@ -55,8 +76,9 @@ app.post("/createstudent", async (req, res) => {
         res.send({ message: response });
     });
 });
+
 app.post("/createcourse", async (req, res) => {
-    await Student.findOne({ courseSectonID: req.body.courseID }, (err, result) => {
+    await Student.findOne({ id: req.params.id }, (err, result) => {
         let response;
         if (err) {
             response = "There was an error finding a course. Please check server.js";
@@ -78,31 +100,54 @@ app.post("/createcourse", async (req, res) => {
         res.send({ message: response });
     });
 });
-app.post("/createcoursesection", async (req, res) => {
-    await Student.findOne({ courseSectionID: req.body.courseSectionID }, (err, result) => {
+
+app.post("/studentcourses", async (req, res) => { //needs to be modified, querying student.js for all courses
+    await Student.findOne({GTID: req.params.GTID}, (coursesTaken: 1) => {
         let response;
-        if (err) {
-            response = "There was an error finding a course section. Please check server.js";
-        } else if (result) {
-            response = "This course section already exists. Try using an update post API instead.";
-        } else {
-            const newCourseSection = new Student({
-                courseSectonID: req.body.courseSectionID,
-                courseID: req.body.courseID,
-                section: req.body.section,
-                professorName: req.body.professorName
-            });
-            newCourseSection.save();
-            response = "New course section added successfully!";
-        }
-        console.log(response);
-        res.send({ message: response });
+        res.send({message: response});
     });
 });
 
+//route that returns all the user's courses
+
+// app.post("/createcoursesection", async (req, res) => {
+//     await Student.findOne({ courseSectionID: req.body.courseSectionID }, (err, result) => {
+//         let response;
+//         if (err) {
+//             response = "There was an error finding a course section. Please check server.js";
+//         } else if (result) {
+//             response = "This course section already exists. Try using an update post API instead.";
+//         } else {
+//             const newCourseSection = new Student({
+//                 courseSectonID: req.body.courseSectionID,
+//                 courseID: req.body.courseID,
+//                 section: req.body.section,
+//                 professorName: req.body.professorName
+//             });
+//             newCourseSection.save();
+//             response = "New course section added successfully!";
+//         }
+//         console.log(response);
+//         res.send({ message: response });
+//     });
+// });
+
+// probably don't need?
+
+
+//TODO (once we have a schema?)
+//courses in progress
+//courses taken
+//requirements based on majors
+//^ comes from GT CS degree info
+//setup POST, GET, PUT
+
+
+
 app.get("/", (req, res) => {
-    res.send("Hello World!");
+    //insert homepage
 });
+
 const port = process.env.PORT || 8000;
 app.listen(port, (err) => {
     if (err) { return console.log(err); }
