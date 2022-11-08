@@ -29,24 +29,19 @@ class App extends React.Component {
 
     render() {
         return (
-            <Router>
-                <TopBar user={this.user}/>
-                <div id="container">
-                    <Routes>
-                        <Route path="/user"> {/* Do NOT go to empty paths right now, as they will induce an infinite loop in browser*/}
-                            
-                        </Route>
-                        <Route path="/course/:courseId">
-                            
-                        </Route>
-                        <Route path="/junior-design-options">
-                            
-                        </Route>
-                        <Route path="/" element={<HomePage/>}>
-                        </Route>
-                    </Routes>
-                </div>
-            </Router>
+            <>
+                <Router>
+                    <TopBar user={this.user}/>
+                    <div id="container">
+                        <Routes>
+                            <Route path="/" element={<HomePage/>}/>
+                            <Route path="/user"/>
+                            <Route path="/course/:courseId"/>
+                            <Route path="/junior-design-options"/>
+                        </Routes>
+                    </div>
+                </Router>
+            </>
         );
     }
 }
