@@ -40,7 +40,7 @@ app.get("/courseID", async (req, res) => { //access user_id with req.params.user
 });
 
 app.get("/studentID", async (req, res) => {
-    await Student.findOne({ GTID: req.body.GTID}, (err, result) => {
+    await Student.findOne({ GTID: req.body.GTID }, (err, result) => {
         let response;
         if (err) {
             console.log("There was an error finding a student. Please check server.js");
@@ -101,14 +101,19 @@ app.post("/createcourse", async (req, res) => {
     });
 });
 
-app.post("/studentcourses", async (req, res) => { //needs to be modified, querying student.js for all courses
-    await Student.findOne({GTID: req.params.GTID}, (coursesTaken: 1) => {
-        let response;
-        res.send({message: response});
-    });
+app.post("/studentcourses/:GTID", async (req, res) => { //needs to be modified, querying student.js for all courses
+    const student = await Student.findOne({ GTID: req.params.GTID });
+    var allCourse = Array[student.coursesTaken.length];
+    var ip = Array[student.coursesTaken.length];
+    var taken = Array[student.coursesTaken.length]
+    for (let i = 0; i < array.length; i++) {
+        if (array[i].equals("")) {
+            ip[i] = student.coursesTaken[i];
+        } else {
+            taken[i] = student.coursesTaken[i];
+        }
+    }
 });
-
-//route that returns all the user's courses
 
 // app.post("/createcoursesection", async (req, res) => {
 //     await Student.findOne({ courseSectionID: req.body.courseSectionID }, (err, result) => {
