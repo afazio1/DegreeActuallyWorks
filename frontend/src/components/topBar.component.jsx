@@ -33,7 +33,7 @@ class TopBar extends React.Component {
                             </div>
                         </div>
                         <div id='user-avatar-dropdown-wrapper'>
-                            <UserAvatar avatarInitial={this.user.firstName[0]} style={{'margin-right': 0}}/>
+                            <UserAvatar avatarInitial={this.user.firstName[0]} style={{'marginRight': 0}}/>
                             <div id="avatar-dropdown">
                                 <div className="user-avatar-row">
                                     <UserAvatar avatarInitial={this.user.firstName[0]} className="dropdown-menu-avatar"/>
