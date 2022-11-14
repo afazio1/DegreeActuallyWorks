@@ -1,0 +1,25 @@
+#table-of-contents-wrapper {
+    position: fixed;
+    width: 150px;
+    right: 0;
+    top: 40%;
+
+    #table-of-contents-title {
+        position: fixed;
+        text-transform: uppercase;
+        transform: rotate(90deg);
+        white-space: nowrap;
+        right: 67px;
+        letter-spacing: 0.25em;
+        border-top: 1px solid;
+    }
+
+    #table-of-contents {
+        padding: 0 10px 0 1em;
+
+        li {
+            display: inline;
+            cursor: pointer;
+        }
+    }
+}

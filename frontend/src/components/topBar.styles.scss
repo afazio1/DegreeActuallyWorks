@@ -1,7 +1,9 @@
 #top-bar {
     width: 100vw;
     height: 90px;
-    position: absolute;
+    position: sticky;
+    left: 0;
+    top: 0;
     background-color: #FFD25D;
     display: flex;
     justify-content: center;
