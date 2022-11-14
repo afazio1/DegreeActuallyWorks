@@ -40,7 +40,7 @@ const studentSchema = new mongoose.Schema({
             },
             grade: String
         }
-    ]
+    ] //query this, check if it has a grade -> if not, it's in progress
 });
 
 module.exports = mongoose.model("Student", studentSchema);
