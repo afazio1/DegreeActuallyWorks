@@ -107,38 +107,15 @@ app.post("/studentcourses/:GTID", async (req, res) => { //needs to be modified, 
     var ip = Array[student.coursesTaken.length];
     var taken = Array[student.coursesTaken.length]
     for (let i = 0; i < array.length; i++) {
-        if (array[i].equals("")) {
+        if (allCourse[i].equals("") || allCourse[i] == null) {
             ip[i] = student.coursesTaken[i];
         } else {
             taken[i] = student.coursesTaken[i];
         }
     }
+    res.send({ message: ip });
+    res.send({ message: taken });
 });
-
-// app.post("/createcoursesection", async (req, res) => {
-//     await Student.findOne({ courseSectionID: req.body.courseSectionID }, (err, result) => {
-//         let response;
-//         if (err) {
-//             response = "There was an error finding a course section. Please check server.js";
-//         } else if (result) {
-//             response = "This course section already exists. Try using an update post API instead.";
-//         } else {
-//             const newCourseSection = new Student({
-//                 courseSectonID: req.body.courseSectionID,
-//                 courseID: req.body.courseID,
-//                 section: req.body.section,
-//                 professorName: req.body.professorName
-//             });
-//             newCourseSection.save();
-//             response = "New course section added successfully!";
-//         }
-//         console.log(response);
-//         res.send({ message: response });
-//     });
-// });
-
-// probably don't need?
-
 
 //TODO (once we have a schema?)
 //courses in progress
@@ -146,8 +123,6 @@ app.post("/studentcourses/:GTID", async (req, res) => { //needs to be modified, 
 //requirements based on majors
 //^ comes from GT CS degree info
 //setup POST, GET, PUT
-
-
 
 app.get("/", (req, res) => {
     //insert homepage
