@@ -106,11 +106,15 @@ app.post("/studentcourses/:GTID", async (req, res) => { //needs to be modified, 
     var allCourse = Array[student.coursesTaken.length];
     var ip = Array[student.coursesTaken.length];
     var taken = Array[student.coursesTaken.length]
+    var index = 0;
+    var index2 = 0;
     for (let i = 0; i < array.length; i++) {
         if (allCourse[i].equals("") || allCourse[i] == null) {
-            ip[i] = student.coursesTaken[i];
+            ip[index] = student.coursesTaken[i];
+            index++;
         } else {
-            taken[i] = student.coursesTaken[i];
+            taken[index2] = student.coursesTaken[i];
+            index2++;
         }
     }
     res.send({ message: ip });
