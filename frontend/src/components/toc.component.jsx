@@ -20,6 +20,7 @@ export default class TableOfContents extends React.Component {
     constructor(props) {
         super(props)
 
+        // Remove props that are not meant to be put in HTML DOM
         var childrenToWorkWith = !props.children ? [] : (props.children instanceof Object ? [props.children] : props.children)
         
         this.state = {
