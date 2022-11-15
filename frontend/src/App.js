@@ -1,6 +1,7 @@
 import './App.styles.scss'
 import TopBar from './components/topBar.component'
 import HomePage from './components/homePage.component';
+import UserPage from './components/userPage.component'
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
@@ -29,24 +30,19 @@ class App extends React.Component {
 
     render() {
         return (
-            <Router>
-                <TopBar user={this.user}/>
-                <div id="container">
-                    <Routes>
-                        <Route path="/user"> {/* Do NOT go to empty paths right now, as they will induce an infinite loop in browser*/}
-                            
-                        </Route>
-                        <Route path="/course/:courseId">
-                            
-                        </Route>
-                        <Route path="/junior-design-options">
-                            
-                        </Route>
-                        <Route path="/" element={<HomePage/>}>
-                        </Route>
-                    </Routes>
-                </div>
-            </Router>
+            <>
+                <Router>
+                    <TopBar user={this.user}/>
+                    <div id="container">
+                        <Routes>
+                            <Route path="/" element={<HomePage/>} />
+                            <Route path="/user" element={<UserPage/>} />
+                            <Route path="/course/:courseId" />
+                            <Route path="/junior-design-options" />
+                        </Routes>
+                    </div>
+                </Router>
+            </>
         );
     }
 }
