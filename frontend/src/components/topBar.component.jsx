@@ -29,7 +29,7 @@ class TopBar extends React.Component {
                             </div>
                             <div id='gpa-preview'>
                                 <span className='bold'>GPA: </span>
-                                <span>{this.user.gpa}</span>
+                                <span>{this.user.gpa.toFixed(2)}</span>
                             </div>
                         </div>
                         <div id='user-avatar-dropdown-wrapper'>
