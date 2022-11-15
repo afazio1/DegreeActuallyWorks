@@ -117,8 +117,8 @@ app.post("/studentcourses/:GTID", async (req, res) => { //needs to be modified, 
             index2++;
         }
     }
-    res.send({ message: ip });
-    res.send({ message: taken });
+    res.send({ ip });
+    res.send({ taken });
 });
 
 //TODO (once we have a schema?)
