@@ -101,7 +101,7 @@ app.post("/createcourse", async (req, res) => {
     });
 });
 
-app.post("/studentcourses/:GTID", async (req, res) => { //needs to be modified, querying student.js for all courses
+app.post("/studentcourses/:GTID", async (req, res) => {
     const student = await Student.findOne({ GTID: req.params.GTID });
     var allCourse = Array[student.coursesTaken.length];
     var ip = Array[student.coursesTaken.length];
@@ -121,12 +121,7 @@ app.post("/studentcourses/:GTID", async (req, res) => { //needs to be modified, 
     res.send({ taken });
 });
 
-//TODO (once we have a schema?)
-//courses in progress
-//courses taken
-//requirements based on majors
-//^ comes from GT CS degree info
-//setup POST, GET, PUT
+//major requirements
 
 app.get("/", (req, res) => {
     //insert homepage
