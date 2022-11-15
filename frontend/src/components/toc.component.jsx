@@ -20,7 +20,7 @@ export default class TableOfContents extends React.Component {
     constructor(props) {
         super(props)
 
-        // Remove props that are not meant to be put in HTML DOM
+        // Normalize cases where theres: 1) No children, 2) One child, or 3) Many children
         var childrenToWorkWith = !props.children ? [] : (props.children instanceof Object ? [props.children] : props.children)
         
         this.state = {
@@ -37,9 +37,11 @@ export default class TableOfContents extends React.Component {
     render() {
         return (
             <div id="table-of-contents-wrapper">
-                <span id="table-of-contents-title">{this.props.title}</span>
                 <div id="table-of-contents">
-                    {this.state.children}
+                    <p id="table-of-contents-title">{this.props.title}</p>
+                    <ul>
+                        {this.state.children}
+                    </ul>
                 </div>
             </div>
         )

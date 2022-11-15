@@ -1,23 +1,32 @@
 #table-of-contents-wrapper {
-    position: fixed;
-    width: 150px;
-    right: 2.5%;
-    top: 50%;
-
-    #table-of-contents-title {
-        position: fixed;
-        text-transform: uppercase;
-        transform: rotate(270deg);
-        white-space: nowrap;
-        right: 80px;
-        letter-spacing: 0.25em;
-        border-bottom: 1px solid;
-    }
-
+    width: 20%;
+    
     #table-of-contents {
-        li {
-            display: inline;
-            cursor: pointer;
+        position: fixed;
+        right: 120px;
+        top: 46%;
+        border-left: 1px solid black;
+        min-height: 10%;
+        max-width: 150px;
+        padding: 10px 0 0 20px;
+
+        #table-of-contents-title {
+            display: inline-block;
+            margin: 0 0 10px 0;
+            font-weight: bold;
+            text-transform: capitalize;
+            word-wrap: break-word;
+        }
+
+        ul {
+            padding: 0;
+            margin: 0;
+
+            li {
+                display: inline-block;
+                cursor: pointer;
+                text-transform: capitalize;
+            }
         }
     }
 }
