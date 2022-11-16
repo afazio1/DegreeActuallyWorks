@@ -108,7 +108,7 @@ app.post("/studentcourses/:GTID", async (req, res) => {
     var taken = Array[student.coursesTaken.length]
     var index = 0;
     var index2 = 0;
-    for (let i = 0; i < array.length; i++) {
+    for (let i = 0; i < allCourse.length; i++) {
         if (allCourse[i].equals("") || allCourse[i] == null) {
             ip[index] = student.coursesTaken[i];
             index++;
