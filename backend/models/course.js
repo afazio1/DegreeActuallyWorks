@@ -14,7 +14,7 @@ const courseSchema = new mongoose.Schema({
         required: true
     },
     creditHours: {
-        type: Number,
+        type: String,
         required: true
     },
     department: {
