@@ -1,6 +1,7 @@
 import './App.styles.scss'
 import TopBar from './components/topBar.component'
 import HomePage from './components/homePage.component';
+import UserPage from './components/userPage.component'
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
