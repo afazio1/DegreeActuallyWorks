@@ -30,19 +30,17 @@ class App extends React.Component {
 
     render() {
         return (
-            <>
-                <Router>
-                    <TopBar user={this.user}/>
-                    <div id="container">
-                        <Routes>
-                            <Route path="/" element={<HomePage/>} />
-                            <Route path="/user" element={<UserPage/>} />
-                            <Route path="/course/:courseId" />
-                            <Route path="/junior-design-options" />
-                        </Routes>
-                    </div>
-                </Router>
-            </>
+            <Router>
+                <TopBar user={this.user} />
+                <div id="container">
+                    <Routes>
+                        <Route exact path="/" element={<HomePage/>} />
+                        <Route path="/user" /> 
+                        <Route path="/course/:courseId" />
+                        <Route path="/junior-design-options" />
+                    </Routes>
+                </div>
+            </Router>
         );
     }
 }

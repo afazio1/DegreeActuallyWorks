@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const connectDB = require("../config/db");
+const {connectDB, closeDB} = require("../config/db");
 const course = require("../models/course");
 const Course = require("../models/course");
 const Student = require("../models/student");

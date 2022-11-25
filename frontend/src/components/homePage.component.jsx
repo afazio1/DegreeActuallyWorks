@@ -1,5 +1,6 @@
 import ToC from './toc.component'
 import './homePage.styles.scss'
+
 import React, { createRef } from 'react'
 
 class HomePage extends React.Component {

@@ -2,17 +2,20 @@ const express = require("express");
 const connectDB = require("./config/db");
 const app = express();
 const mongoose = require('mongoose');
-const connectDB = require("./config/db.js");
 const bodyParser = require("body-parser");
 const jsonParser = bodyParser.json();
 connectDB();
 const Course = require("./models/course");
-const CourseSection = require("./models/courseSection");
 const Student = require("./models/student");
 const { response } = require('express');
 
 connectDB();
 
+app.get("/", (req, res) => {
+    res.send("Hello World!");
+});
+// app.get("/courseSections/:courseSectionID", async (req, res) => { //access user_id with req.params.user_id
+//     await Course.findOne({ id: req.params.courseSectionID }, (err, result) => {
 connectDB();
 
 // app.get("/courseSections/:courseSectionID", async (req, res) => { //access user_id with req.params.user_id
@@ -102,11 +105,29 @@ app.post("/createcourse", async (req, res) => {
 });
 
 app.post("/studentcourses", async (req, res) => { //needs to be modified, querying student.js for all courses
-    await Student.findOne({GTID: req.params.GTID}, (coursesTaken: 1) => {
+    await Student.findOne({GTID: req.params.GTID}, (err, response) => {
         let response;
         res.send({message: response});
     });
 });
+
+app.post("/attemptlogin", jsonParser, (req, res) => {
+    Student.findOne({GTID: req.body.GTID}, (err, response) => {
+        if(err) {
+            console.log(err);
+            res.json({message: "error"});
+        } else if(!response) {
+            res.json({message: "no user found"});
+        } else {
+            res.json({message: "success", user: response});
+        }
+    });
+});
+
+
+
+
+
 
 //route that returns all the user's courses
 
