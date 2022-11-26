@@ -2,47 +2,59 @@ import './App.styles.scss'
 import TopBar from './components/topBar.component'
 import HomePage from './components/homePage.component';
 import UserPage from './components/userPage.component'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import axios from 'axios';
 
-class App extends React.Component {
-    constructor(props) {
-        super(props)
-        this.user = {  // Not a real user from db, just for display testing
-            "id": 912345678,
-            "firstName": "George P.",
-            "lastName": "Burdell",
-            "email": "gburdell@gatech.edu",
-            "major": ["Computer Science"],
-            "minor": [],
-            "classification": "Senior",
-            "earnedCredits": 126,
-            "gpa": 4.0,
-            "coursesTaken": [
-                {
-                    "id": "GT 1000",
-                    "semester": "Fall 2022",
-                    "grade": "A"
-                }
-            ]
-        }
-    }
+export default function App() {
+    const [user, setUser] = useState([]);
 
-    render() {
-        return (
+    const getUser = () => {
+        axios.get("http://localhost:8000/student/938253473")
+            .then(response => {
+                console.log(response.data)
+                setUser([response.data])
+            });
+
+    };
+
+    useEffect(() => {
+        getUser();
+    }, []);
+
+    return (
+        <>
             <Router>
-                <TopBar user={this.user} />
+                <TopBar user={user[0]} />
                 <div id="container">
                     <Routes>
-                        <Route exact path="/" element={<HomePage/>} />
-                        <Route path="/user" /> 
+                        <Route path="/" element={<HomePage />} />
+                        <Route path="/user" element={<UserPage />} />
                         <Route path="/course/:courseId" />
                         <Route path="/junior-design-options" />
                     </Routes>
                 </div>
             </Router>
-        );
-    }
+        </>
+    );
 }
 
-export default App;
+// Not a real user from db, just for display testing
+// { 
+//     "id": 912345678,
+//     "firstName": "George P.",
+//     "lastName": "Burdell",
+//     "email": "gburdell@gatech.edu",
+//     "major": ["Computer Science"],
+//     "minor": [],
+//     "classification": "Senior",
+//     "earnedCredits": 126,
+//     "gpa": 4.0,
+//     "coursesTaken": [
+//         {
+//             "id": "GT 1000",
+//             "semester": "Fall 2022",
+//             "grade": "A"
+//         }
+//     ]
+// }

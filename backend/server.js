@@ -1,21 +1,12 @@
 const express = require("express");
-const connectDB = require("./config/db");
+const { connectDB } = require("./config/db");
 const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require("body-parser");
 const jsonParser = bodyParser.json();
-connectDB();
 const Course = require("./models/course");
 const Student = require("./models/student");
-const { response } = require('express');
 
-connectDB();
-
-app.get("/", (req, res) => {
-    res.send("Hello World!");
-});
-// app.get("/courseSections/:courseSectionID", async (req, res) => { //access user_id with req.params.user_id
-//     await Course.findOne({ id: req.params.courseSectionID }, (err, result) => {
 connectDB();
 
 // app.get("/courseSections/:courseSectionID", async (req, res) => { //access user_id with req.params.user_id
@@ -42,17 +33,11 @@ app.get("/courseID", async (req, res) => { //access user_id with req.params.user
     });
 });
 
-app.get("/studentID", async (req, res) => {
-    await Student.findOne({ GTID: req.body.GTID}, (err, result) => {
-        let response;
-        if (err) {
-            console.log("There was an error finding a student. Please check server.js");
-        } else if (!result) {
-            console.log("No student exists matching the ID given.");
-        } else {
-            res.send(result);
-        }
-    })
+app.get("/student/:GTID", async (req, res) => {
+    const student = await Student.findOne({ _id: req.params.GTID });
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.json(student);
 })
 
 //Basic Post Methods
@@ -105,21 +90,19 @@ app.post("/createcourse", async (req, res) => {
 });
 
 app.post("/studentcourses", async (req, res) => { //needs to be modified, querying student.js for all courses
-    await Student.findOne({GTID: req.params.GTID}, (err, response) => {
-        let response;
-        res.send({message: response});
-    });
+    const student = await Student.findOne({ GTID: req.params.GTID });
+    return res.json(student);
 });
 
 app.post("/attemptlogin", jsonParser, (req, res) => {
-    Student.findOne({GTID: req.body.GTID}, (err, response) => {
-        if(err) {
+    Student.findOne({ GTID: req.body.GTID }, (err, response) => {
+        if (err) {
             console.log(err);
-            res.json({message: "error"});
-        } else if(!response) {
-            res.json({message: "no user found"});
+            res.json({ message: "error" });
+        } else if (!response) {
+            res.json({ message: "no user found" });
         } else {
-            res.json({message: "success", user: response});
+            res.json({ message: "success", user: response });
         }
     });
 });
