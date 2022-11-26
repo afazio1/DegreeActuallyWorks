@@ -29,7 +29,7 @@ import('pdf2json').then(async pdf2json => {  // Workaround since we can't use im
         let parseLoc = 0
         for (let page of pdfData.Pages) {
             for (let line of page.Texts) {
-                textSegment = line.R[0].T
+                textSegment = decodeURIComponent(line.R[0].T)
                 switch (textSegment) {
                     // Forgive me for writing code like this. If I had enough time
                     // I'd rewrite this into something like JSON mapping
@@ -85,14 +85,17 @@ import('pdf2json').then(async pdf2json => {  // Workaround since we can't use im
                             break
                         }
                 }
-                rawText.push(decodeURIComponent())
+                rawText.push(textSegment)
                 parseLoc++
             }
         }
 
+        console.log(JSON.stringify(rawText, undefined, '  '))
+
         // Get basic student info
         const studentID = rawText[idIndex],
-            studentSplitName = rawText[studentNameIndex].rsplit(' ', 1),
+            studentFullName = rawText[studentNameIndex],
+            studentSplitName = studentFullName.includes(',') ? studentFullName.split(', ').reverse() : studentFullName.rsplit(' ', 1),
             parsedStudent = new Student(Object.assign({}, {  // Using Object.assign here to skip null values
                 _id: studentID,
                 firstName: studentSplitName[0],
@@ -100,6 +103,7 @@ import('pdf2json').then(async pdf2json => {  // Workaround since we can't use im
                 // We don't know their email?
                 major: rawText[majorIndex],
                 gpa: rawText[gpaIndex],
+                coursesTaken: [],
                 level: rawText[levelIndex],
                 classification: rawText[classifIndex],
                 college: rawText[collegeIndex],
@@ -124,11 +128,11 @@ import('pdf2json').then(async pdf2json => {  // Workaround since we can't use im
             })
             inProgressCourses.push(course)
         }
-        Student.coursesTaken.push(...inProgressCourses)
+        parsedStudent.coursesTaken.push(...inProgressCourses)
 
-        Student.updateOne({_id: studentID}, parsedStudent, undefined, true)  // Update with upsert enabled
+        await Student.updateOne({_id: studentID}, parsedStudent, {upsert: true})
         
-        fs.writeFile("./content.txt", JSON.stringify(textByPage, false, ' '), ()=>{console.log("Done.");});
+        fs.writeFile("./content.txt", JSON.stringify(rawText, undefined, '  '), ()=>{console.log("Done.");});
     });
 
     pdfParser.loadPDF("./dashboard.pdf");
