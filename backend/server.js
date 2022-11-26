@@ -5,9 +5,7 @@ const mongoose = require('mongoose');
 const bodyParser = require("body-parser");
 const jsonParser = bodyParser.json();
 const Course = require("./models/course");
-// const CourseSection = require("./models/courseSection");
 const Student = require("./models/student");
-const { response } = require('express');
 
 connectDB();
 
@@ -95,6 +93,24 @@ app.post("/studentcourses", async (req, res) => { //needs to be modified, queryi
     const student = await Student.findOne({ GTID: req.params.GTID });
     return res.json(student);
 });
+
+app.post("/attemptlogin", jsonParser, (req, res) => {
+    Student.findOne({ GTID: req.body.GTID }, (err, response) => {
+        if (err) {
+            console.log(err);
+            res.json({ message: "error" });
+        } else if (!response) {
+            res.json({ message: "no user found" });
+        } else {
+            res.json({ message: "success", user: response });
+        }
+    });
+});
+
+
+
+
+
 
 //route that returns all the user's courses
 
