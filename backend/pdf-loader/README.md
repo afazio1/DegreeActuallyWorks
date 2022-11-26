@@ -7,3 +7,5 @@ working with this module:
 3. Wait as the audit PDF loads
 4. **Do NOT download the audit**. Instead, **print** it and select "Save as PDF" for the Printer option
 5. Move the saved PDF to this directory. You're good to go.
+
+For info on data structure and API usage, check here: https://www.npmjs.com/package/pdf2json
