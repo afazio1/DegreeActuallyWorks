@@ -1,4 +1,4 @@
-import ToC from './toc.component'
+import TableOfContents from './toc.component'
 import './homePage.styles.scss'
 
 import React, { createRef } from 'react'
@@ -10,9 +10,9 @@ class HomePage extends React.Component {
     render() {
         return (
             <>
-                <ToC title="Table of Contents">
+                <TableOfContents title="Table of Contents">
                     <p toRef={this.state.testRef}>Click me</p>
-                </ToC>
+                </TableOfContents>
                 <h1 ref={this.state.testRef}>TestH1</h1>
             </>
         )

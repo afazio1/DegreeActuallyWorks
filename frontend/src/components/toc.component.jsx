@@ -1,5 +1,5 @@
 import './toc.styles.scss'
-import React, {createRef} from 'react'
+import React from 'react'
 
 export default class TableOfContents extends React.Component {
     /*
@@ -25,7 +25,6 @@ export default class TableOfContents extends React.Component {
         
         this.state = {
             children: childrenToWorkWith.map((element, index) => {
-                console.log(element)
                 let elementRef = element.props.toRef
                 let elementProps = {...element.props}
                 delete elementProps.toRef
