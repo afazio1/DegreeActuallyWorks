@@ -58,6 +58,10 @@ const studentSchema = new mongoose.Schema({
         type: String,
         required: false
     },
+    minor: {
+        type: String,
+        required: false
+    },
     coursesTaken: [
         {
             type: String,
