@@ -117,19 +117,23 @@ import('pdf2json').then(async pdf2json => {  // Workaround since we can't use im
         let course;
         const creditsApplied = rawText[inProgressStart+1].rsplit(' ', 1)[1]  // Original string looks like: "Credits Applied: 33"
         const inProgressCourses = []
-        for (let i = inProgressStart+2; i <= inProgressEnd; i += 5) {
+        for (let i = inProgressStart+2; i <= inProgressEnd-4; i += 5) {
             // If I'm correct about this, we should jump from one course number to the next
             // Run this file once and check content.txt for reference
-            course = new Course({
+            console.log({
                 _id: rawText[i],
                 ref: 'Course',
-                semester: rawText[i+4],
+                semester: rawText[i+3],
                 grade: null  // FIXME: We don't know this
             })
-            inProgressCourses.push(course)
+            parsedStudent.coursesTaken.push({
+                _id: rawText[i],
+                ref: 'Course',
+                semester: rawText[i+3],
+                grade: null  // FIXME: We don't know this
+            })
         }
-        parsedStudent.coursesTaken.push(...inProgressCourses)
-
+        console.log(parsedStudent.coursesTaken)
         await Student.updateOne({_id: studentID}, parsedStudent, {upsert: true})
         
         fs.writeFile("./content.txt", JSON.stringify(rawText, undefined, '  '), ()=>{console.log("Done.");});

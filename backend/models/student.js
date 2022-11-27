@@ -64,8 +64,11 @@ const studentSchema = new mongoose.Schema({
     },
     coursesTaken: [
         {
-            type: String,
-            ref: 'Course',
+            _id: {
+                type: String,
+                ref: 'Course',
+                required: true
+            },
             semester: {
                 type: String,
                 required: true
