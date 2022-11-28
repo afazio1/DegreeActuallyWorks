@@ -7,6 +7,14 @@ const jsonParser = bodyParser.json();
 const Course = require("./models/course");
 const Student = require("./models/student");
 
+const notFoundError = {
+    message: 'Data not found with requested query.'
+}, dbError = {
+    message: 'There is an error in the database. See server log for more info.'
+}, serverError = {
+    message: "An error occurred on the server's end. See server log for more info."
+}
+
 connectDB();
 
 // app.get("/courseSections/:courseSectionID", async (req, res) => { //access user_id with req.params.user_id
@@ -21,16 +29,38 @@ connectDB();
 //     });
 // });
 
+app.get('/course', async (req, res) => {
+    await Course.find({}, (err, result) => {
+        if (err) {  // This is repetitive. We should have better error handling ~Cynthia
+            console.log("There was an error processing request from endpoint /course")
+        } else if (!result) {
+            console.log("No course exists matching the ID given.");
+            res.status(404).json(notFoundError)
+        } else {
+            res.json(result)
+        }
+    }).clone().catch(err => {
+        console.log(err)
+        res.status(500).json(serverError)
+    })
+})
+
 app.get("/course/:courseID", async (req, res) => { //access user_id with req.params.user_id
     await Course.findOne({ _id: req.params.courseID }, (err, result) => {
         if (err) {
-            console.log("There was an error processing the /courseID request");
+            console.log("There was an error processing request from endpoint /course/:courseID");
+            console.log(err)
+            res.status(500).json(dbError)
         } else if (!result) {
             console.log("No course exists matching the ID given.");
+            res.status(404).json(notFoundError)
         } else {
-            res.send(result);
+            res.json([result]);
         }
-    }).clone();
+    }).clone().catch(err => {
+        console.log(err)
+        res.status(500).json(serverError)
+    });
 });
 
 app.get("/student/:GTID", async (req, res) => {

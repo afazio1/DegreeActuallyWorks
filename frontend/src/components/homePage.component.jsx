@@ -1,22 +1,33 @@
-import TableOfContents from './toc.component'
 import './homePage.styles.scss'
+import axios from 'axios'
+import TableOfContents from './toc.component'
+import React, { useRef, useState, useEffect } from 'react'
 
-import React, { createRef } from 'react'
+const HomePage = (props) => {
+    const { user } = props,
+        [ testRef, setTestRef ] = useState(useRef(null)),
+        [ testCourse, setTestCourse ] = useState([{}])
+    
+    useEffect(() => {
+        axios.get('http://localhost:8000/').then(res => {
+            setTestCourse(res.data)
+            console.log(testCourse)
+        })
+    })
+    
+    return (
+        <>
+            <TableOfContents title="Table of Contents">
+                <p toRef={testRef}>Click me</p>
+            </TableOfContents>
 
-class HomePage extends React.Component {
-    state = {
-        testRef: createRef()
-    }
-    render() {
-        return (
-            <>
-                <TableOfContents title="Table of Contents">
-                    <p toRef={this.state.testRef}>Click me</p>
-                </TableOfContents>
-                <h1 ref={this.state.testRef}>TestH1</h1>
-            </>
-        )
-    }
+            <h1 ref={testRef}>
+                <span class="title">TestH1</span>
+                <span class="sub-title">Credits Applied: 4</span>
+            </h1>
+            
+        </>
+    )
 }
 
 export default HomePage

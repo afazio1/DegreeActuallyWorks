@@ -12,7 +12,7 @@ export default function App() {
     const getUser = () => {
         axios.get("http://localhost:8000/student/900000000")
             .then(response => {
-                console.log(response.data)
+                console.log(response)
                 setUser([response.data])
             });
 
