@@ -21,8 +21,8 @@ connectDB();
 //     });
 // });
 
-app.get("/courseID", async (req, res) => { //access user_id with req.params.user_id
-    await Course.findOne({ id: req.params.id }, (err, result) => {
+app.get("/course/:courseID", async (req, res) => { //access user_id with req.params.user_id
+    await Course.findOne({ _id: req.params.courseID }, (err, result) => {
         if (err) {
             console.log("There was an error processing the /courseID request");
         } else if (!result) {
@@ -30,7 +30,7 @@ app.get("/courseID", async (req, res) => { //access user_id with req.params.user
         } else {
             res.send(result);
         }
-    });
+    }).clone();
 });
 
 app.get("/student/:GTID", async (req, res) => {
