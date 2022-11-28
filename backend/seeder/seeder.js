@@ -107,7 +107,7 @@ const addStudentData = async () => {
         earnedCredits: 1000,
         gpa: 0.0,
         level: '_AlreadyFaculty!',
-        classification: '_PostGRaduate!',
+        classification: '_PostGraduate!',
         college: '_Engineering',
         degree: '_BS in Degree',
         degreeCandidate: '_Helluva Engineer',
