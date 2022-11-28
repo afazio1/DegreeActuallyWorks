@@ -10,7 +10,7 @@ export default function App() {
     const [user, setUser] = useState([]);
 
     const getUser = () => {
-        axios.get("http://localhost:8000/student/938253473")
+        axios.get("http://localhost:8000/student/900000000")
             .then(response => {
                 console.log(response.data)
                 setUser([response.data])
