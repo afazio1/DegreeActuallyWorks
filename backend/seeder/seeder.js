@@ -46,9 +46,17 @@ const addStudentData = async () => {
             firstName: users.firstName,
             lastName: users.lastName,
             email: users.email,
-            major: ["CS"],
+            major: ["Computer Science"],
             earnedCredits: 10,
             gpa: 3.5,
+            level: 'Undergraduate Semester',
+            classification: 'Freshman',
+            college: 'College of Computing',
+            degree: 'BS in Computer Science',
+            degreeCandidate: null,
+            academicStanding: null,
+            graduationInformation: null,
+            minor: 'Computational Media',
             coursesTaken: []
         });
 

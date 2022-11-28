@@ -30,10 +30,45 @@ const studentSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    level: {
+        type: String,
+        required: true
+    },
+    classification: {
+        type: String,
+        required: true
+    },
+    college: {
+        type: String,
+        required: true
+    },
+    degree: {
+        type: String,
+        required: true
+    },
+    degreeCandidate: {
+        type: String,
+        required: false
+    },
+    academicStanding: {
+        type: String,
+        required: false
+    },
+    graduationInformation: {
+        type: String,
+        required: false
+    },
+    minor: {
+        type: String,
+        required: false
+    },
     coursesTaken: [
         {
-            type: String,
-            ref: 'Course',
+            _id: {
+                type: String,
+                ref: 'Course',
+                required: true
+            },
             semester: {
                 type: String,
                 required: true
