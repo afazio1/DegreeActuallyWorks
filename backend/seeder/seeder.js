@@ -1,23 +1,26 @@
 const mongoose = require("mongoose");
 const {connectDB, closeDB} = require("../config/db");
-const course = require("../models/course");
 const Course = require("../models/course");
 const Student = require("../models/student");
-let courses_dict = require("./courses_dictionary");
+const Requirement = require('../models/requirement')
+const RequirementGroup = require('../models/requirementGroup')
 const axios = require("axios");
-
+let courses_dict = require("./courses_dictionary");
+let requirements_dict = require('./requirements_test_dictionary')
+// This dict is not comprehensive!
 
 connectDB();
 
 const seedDB = async () => {
     await Course.deleteMany({});
     await Student.deleteMany({});
+    await Requirement.deleteMany({});
 
     await addCourseData();
     await addStudentData();
-
-    closeDB();
+    await addRequirementsData();
 }
+
 const addCourseData = async () => {
     courses_dict = Object.entries(courses_dict); // [["course id", {}]]
 
@@ -123,7 +126,24 @@ const addStudentData = async () => {
             }
         ]
     });
-    dummyStudent.save()
+
+    await dummyStudent.save()
 }
 
-seedDB();
+const addRequirementsData = async () => {
+    const { requirements: reqs, requirementGroups: reqGroups } = requirements_dict
+    for (let r of reqs) {
+        let newReq = new Requirement(r)
+        await newReq.save()
+    }
+    for (let rGroup of reqGroups) {
+        let newReqGroup = new RequirementGroup(rGroup)
+        await newReqGroup.save()
+    }
+}
+
+async function seedAndClose() {
+    await seedDB();
+    closeDB();
+}
+seedAndClose()

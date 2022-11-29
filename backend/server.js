@@ -6,6 +6,8 @@ const bodyParser = require("body-parser");
 const jsonParser = bodyParser.json();
 const Course = require("./models/course");
 const Student = require("./models/student");
+const Requirement = require('./models/requirement');
+const RequirementGroup = require('./models/requirementGroup')
 
 const notFoundError = {
     message: 'Data not found with requested query.'

@@ -1,0 +1,43 @@
+{
+    "requirements": [{
+        "_id": "CPC- English - BOR",
+        "description": "CPC- English - BOR"
+    }, {
+        "_id": "2.0 Overall GPA Required",
+        "_type": "GPA",
+        "expression": "2.0"
+    }, {
+        "_id": "WELLNESS REQUIREMENT",
+        "_type": "Classes",
+        "expression": "APPH 1040"
+    }, {
+        "_id": "CORE AREA A - ESSENTIAL SKILLS",
+        "_type": "Parent",
+        "expression": "English Composition I, English Composition II, Integral Calculus"
+    }, {
+        "_id": "English Composition I",
+        "_type": "Classes",
+        "expression": "ENGL 1101"
+    }, {
+        "_id": "English Composition II",
+        "_type": "Classes",
+        "expression": "ENGL 1102"
+    }, {
+        "_id": "Integral Calculus",
+        "_type": "Classes",
+        "expression": "MATH 1552"
+    }], 
+    "requirementGroups": [{
+        "_id": "BSCS - Degree Requirements",
+        "creditsRequired": 126,
+        "children": [
+            "CPC- English - BOR",
+            "2.0 Overall GPA",
+            "WELLNESS REQUIREMENT",
+            "CORE AREA A - ESSENTIAL SKILLS",
+            "English Composition I",
+            "English Composition II",
+            "Integral Calculus"
+        ]
+    }]
+}
