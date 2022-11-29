@@ -4,13 +4,13 @@ table {
     border-collapse: collapse;
 }
 
-tr th {
+thead tr th {
     text-align: center;
     margin: 0;
     padding: 15px 0;
 }
 
-tr td {
+tbody tr td {
     text-align: center;
     margin: 0;
     padding: 15px 0;
@@ -26,4 +26,8 @@ td:last-child, th:last-child {
 
 tr.row-in-progress {
     background-color: #C6E7FF;
+}
+
+tbody a {
+    text-decoration: underline;
 }
