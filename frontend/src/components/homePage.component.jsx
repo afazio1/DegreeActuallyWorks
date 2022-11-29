@@ -6,44 +6,53 @@ import React, { useRef, useState, useEffect } from 'react'
 
 const HomePage = (props) => {
     const { user } = props,
-        [ testRef, setTestRef ] = useState(useRef(null)),
-        [ testCourse, setTestCourse ] = useState({})
+        [ inProgressRef, _ ] = useState(useRef()),
+        [ studentCourses, setStudentCourses ] = useState([]),
+        [ studentCourseSemesters, setStudentCourseSemesters ] = useState([]),
+        [ studentCourseGrades, setStudentCourseGrades ] = useState([]),
+        [ totalCredits, setTotalCredits ] = useState(0)
     
     useEffect(() => {
-        axios.get('http://localhost:8000/course/__TEST%201000').then(res => {
-            setTestCourse(res.data[0])
-        })
-    }, [])
+        if (user) {
+            axios.get(`http://localhost:8000/studentcourses/${user._id}`).then(res => {
+                const { courses, semesters, grades, credits } = res.data
+                setStudentCourses(courses)
+                setStudentCourseSemesters(semesters)
+                setStudentCourseGrades(grades)
+                setTotalCredits(credits)
+            })
+        }
+    }, [user])
     
     return (
-        <>
-            <TableOfContents title="Table of Contents">
-                <p toRef={testRef}>Click me</p>
-            </TableOfContents>
+        <div id="container">
+            { user && studentCourses &&
+                <>
+                    <TableOfContents title="Table of Contents">
+                        <p toRef={inProgressRef}>In-Progress</p>
+                    </TableOfContents>
 
-            <h1 ref={testRef}>
-                <span className="title">TestH1</span>
-                <span className="sub-title">Credits Applied: 4</span>
-            </h1>
+                    <h1 ref={inProgressRef}>
+                        <span className="title">In-Progress</span>
+                        <span className="sub-title">Credits Applied: {totalCredits}</span>
+                    </h1>
 
-            <CourseTable columnNames={[
-                'Course #',
-                'Course Name',
-                'Hrs',
-                'Term'
-            ]} keys={[
-                '_id',
-                'name',
-                'creditHours',
-                'semester'
-            ]} rowStatus={[
-                'IP'
-            ]}
-            semesterData={[
-                'Fall 2022'
-            ]} 
-            data={[testCourse]}/>
-        </>
+                    <CourseTable columnNames={[
+                        'Course #',
+                        'Course Name',
+                        'Hrs',
+                        'Term'
+                    ]} keys={[
+                        '_id',
+                        'name',
+                        'creditHours',
+                        'semester'
+                    ]} rowStatus={Array(studentCourses.length).fill('IP')}
+                    semesterData={studentCourseSemesters} 
+                    data={studentCourses}/>
+                </>
+            }
+        </div>
     )
 }
 

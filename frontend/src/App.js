@@ -7,13 +7,13 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import axios from 'axios';
 
 export default function App() {
-    const [user, setUser] = useState([]);
+    const [user, setUser] = useState();
 
     const getUser = () => {
         axios.get("http://localhost:8000/student/900000000")
             .then(response => {
                 console.log(response)
-                setUser([response.data])
+                setUser(response.data)
             });
 
     };
@@ -25,15 +25,13 @@ export default function App() {
     return (
         <>
             <Router>
-                <TopBar user={user[0]} />
-                <div id="container">
-                    <Routes>
-                        <Route path="/" element={<HomePage />} />
-                        <Route path="/user" element={<UserPage />} />
-                        <Route path="/course/:courseId" />
-                        <Route path="/junior-design-options" />
-                    </Routes>
-                </div>
+                <TopBar user={user} />
+                <Routes>
+                    <Route path="/" element={<HomePage user={user}/>} />
+                    <Route path="/user" element={<UserPage />} />
+                    <Route path="/course/:courseId" />
+                    <Route path="/junior-design-options" />
+                </Routes>
             </Router>
         </>
     );
