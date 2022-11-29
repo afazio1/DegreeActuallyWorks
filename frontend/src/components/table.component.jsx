@@ -29,25 +29,29 @@ const CourseTable = props => {
 
     return (
         <table cellSpacing={0}>
-            <tr>
-                {columnNames.map(colName => <th>{colName}</th>)}
-            </tr>
-            {data.map((obj, index) => {
-                let className = rowStatus ? classNameOf[rowStatus[index]] : ''
-                return (
-                    <tr className={className}>
-                        { keys.map(key => {
-                            let value = null
-                            if (!obj[key]) {
-                                if (props[key+'Data']) {
-                                    value = props[key+'Data'][index]
-                                }
-                            } else value = obj[key]
-                            return <td>{value}</td>
-                        }) }
-                    </tr>
-                )
-            })}
+            <thead>
+                <tr>
+                    {columnNames.map(colName => <th>{colName}</th>)}
+                </tr>
+            </thead>
+            <tbody>
+                {data.map((obj, index) => {
+                    let className = rowStatus ? classNameOf[rowStatus[index]] : ''
+                    return (
+                        <tr className={className}>
+                            { keys.map(key => {
+                                let value = null
+                                if (!obj[key]) {
+                                    if (props[key+'Data']) {
+                                        value = props[key+'Data'][index]
+                                    }
+                                } else value = obj[key]
+                                return <td>{value}</td>
+                            }) }
+                        </tr>
+                    )
+                })}
+            </tbody>
         </table>
     )
 }

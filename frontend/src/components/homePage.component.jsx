@@ -15,8 +15,12 @@ const HomePage = (props) => {
     useEffect(() => {
         if (user) {
             axios.get(`http://localhost:8000/studentcourses/${user._id}`).then(res => {
-                const { courses, semesters, grades, credits } = res.data
-                setStudentCourses(courses)
+                const { courses, semesters, grades, credits, urls } = res.data
+                const coursesWithURLs = courses.map(c => {
+                    c.displayID = <a href={c.url}>{c._id}</a>
+                    return c
+                })
+                setStudentCourses(coursesWithURLs)
                 setStudentCourseSemesters(semesters)
                 setStudentCourseGrades(grades)
                 setTotalCredits(credits)
@@ -43,7 +47,7 @@ const HomePage = (props) => {
                         'Hrs',
                         'Term'
                     ]} keys={[
-                        '_id',
+                        'displayID',
                         'name',
                         'creditHours',
                         'semester'
