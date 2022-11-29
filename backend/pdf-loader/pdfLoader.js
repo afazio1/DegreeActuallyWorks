@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const fs = require('fs')
-const connectDB = require('../config/db')
+const { connectDB, closeDB } = require('../config/db')
 const Student = require("../models/student");
 const Course = require("../models/course");
 
@@ -133,10 +133,11 @@ import('pdf2json').then(async pdf2json => {  // Workaround since we can't use im
                 grade: null  // FIXME: We don't know this
             })
         }
-        console.log(parsedStudent.coursesTaken)
-        await Student.updateOne({_id: studentID}, parsedStudent, {upsert: true})
         
-        fs.writeFile("./content.txt", JSON.stringify(rawText, undefined, '  '), ()=>{console.log("Done.");});
+        await Student.updateOne({_id: studentID}, parsedStudent, {upsert: true})
+        fs.writeFile("./content.txt", JSON.stringify(rawText, undefined, '  '), () => {
+            closeDB();
+        });
     });
 
     pdfParser.loadPDF("./dashboard.pdf");

@@ -16,6 +16,7 @@ const seedDB = async () => {
     await addCourseData();
     await addStudentData();
 
+    closeDB();
 }
 const addCourseData = async () => {
     courses_dict = Object.entries(courses_dict); // [["course id", {}]]
@@ -34,6 +35,18 @@ const addCourseData = async () => {
         });
         await addCourse.save();
     }
+
+    const dummyCourse = new Course({
+        _id: '__TEST 1000',
+        name: 'Dummy Course',
+        description: 
+`This course is used for database-related debugging processes. 
+If you are seeing this as a student, there's probably something wrong.`,
+        creditHours: 0,
+        department: '__TEST',
+        url: 'https://example.com'
+    });
+    await dummyCourse.save();
 }
 
 const addStudentData = async () => {
@@ -84,7 +97,33 @@ const addStudentData = async () => {
 
         await student.save();
     }
-
+    
+    const dummyStudent = new Student({
+        _id: 900000000,
+        firstName: '_George P.',
+        lastName: '_Burdell',
+        email: 'george.burdell@me.gatech.edu',
+        major: ["_Major1", '_Major2'],
+        earnedCredits: 1000,
+        gpa: 0.0,
+        level: '_AlreadyFaculty!',
+        classification: '_PostGraduate!',
+        college: '_Engineering',
+        degree: '_BS in Degree',
+        degreeCandidate: '_Helluva Engineer',
+        academicStanding: '_Extraordinary',
+        graduationInformation: '_Graduated',
+        minor: ['_Minor1', '_Minor2'],
+        coursesTaken: [
+            {
+                _id: '__TEST 1000',
+                ref: 'Course',
+                semester: '_Semester',
+                grade: '_S'
+            }
+        ]
+    });
+    dummyStudent.save()
 }
 
 seedDB();

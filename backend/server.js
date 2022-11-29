@@ -7,6 +7,19 @@ const jsonParser = bodyParser.json();
 const Course = require("./models/course");
 const Student = require("./models/student");
 
+const notFoundError = {
+    message: 'Data not found with requested query.'
+}, dbError = {
+    message: 'There is an error in the database. See server log for more info.'
+}, serverError = {
+    message: "An error occurred on the server's end. See server log for more info."
+};
+
+const allowCORS = res => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+}
+
 connectDB();
 
 // app.get("/courseSections/:courseSectionID", async (req, res) => { //access user_id with req.params.user_id
@@ -21,22 +34,45 @@ connectDB();
 //     });
 // });
 
-app.get("/courseID", async (req, res) => { //access user_id with req.params.user_id
-    await Course.findOne({ id: req.params.id }, (err, result) => {
-        if (err) {
-            console.log("There was an error processing the /courseID request");
+app.get('/course', async (req, res) => {
+    await Course.find({}, (err, result) => {
+        allowCORS(res)
+        if (err) {  // This is repetitive. We should have better error handling ~Cynthia
+            console.log("There was an error processing request from endpoint /course")
         } else if (!result) {
             console.log("No course exists matching the ID given.");
+            res.status(404).json(notFoundError)
         } else {
-            res.send(result);
+            res.json(result)
         }
+    }).clone().catch(err => {
+        console.log(err)
+        res.status(500).json(serverError)
+    })
+})
+
+app.get("/course/:courseID", async (req, res) => { //access user_id with req.params.user_id
+    await Course.findOne({ _id: req.params.courseID }, (err, result) => {
+        allowCORS(res)
+        if (err) {
+            console.log("There was an error processing request from endpoint /course/:courseID");
+            console.log(err)
+            res.status(500).json(dbError)
+        } else if (!result) {
+            console.log("No course exists matching the ID given.");
+            res.status(404).json(notFoundError)
+        } else {
+            res.json([result]);
+        }
+    }).clone().catch(err => {
+        console.log(err)
+        res.status(500).json(serverError)
     });
 });
 
 app.get("/student/:GTID", async (req, res) => {
     const student = await Student.findOne({ _id: req.params.GTID });
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    allowCORS(res)
     res.json(student);
 })
 
@@ -89,28 +125,56 @@ app.post("/createcourse", async (req, res) => {
     });
 });
 
-app.post("/studentcourses", async (req, res) => { //needs to be modified, querying student.js for all courses
-    const student = await Student.findOne({ GTID: req.params.GTID });
-    return res.json(student);
+app.get("/studentcourses/:GTID", async (req, res) => {
+    allowCORS(res)
+    Student.findOne({ _id: req.params.GTID }, async (err, student) => {
+        if (!student) {
+            res.status(404).json(notFoundError)
+        } else if (err) {
+            console.log(err)
+            res.status(500).json(dbError)
+        } else {
+            const courses = [],
+                semesters = [],
+                grades = []
+            let totalHours = 0
+            for (let course of student.coursesTaken) {
+                let courseData = await Course.findOne({ _id: course._id }).clone()
+                courses.push(courseData)
+                semesters.push(course.semester)
+                grades.push(course.grade)
+                totalHours += courseData.creditHours
+            }
+            res.json({
+                courses: courses,
+                semesters: semesters,
+                grades: grades,
+                credits: totalHours
+            });
+        }
+    }).clone().catch(err => {
+        console.log(err)
+        res.status(500).json(serverError)
+    })
 });
 
+// app.post("/studentcourses", async (req, res) => { //needs to be modified, querying student.js for all courses
+//     const student = await Student.findOne({ GTID: req.params.GTID });
+//     return res.json(student);
+// });
+
 app.post("/attemptlogin", jsonParser, (req, res) => {
-    Student.findOne({ GTID: req.body.GTID }, (err, response) => {
+    Student.findOne({ _id: req.body.GTID }, (err, response) => {
         if (err) {
             console.log(err);
-            res.json({ message: "error" });
+            res.status(500).json({ message: "error" });
         } else if (!response) {
-            res.json({ message: "no user found" });
+            res.status(404).json({ message: "no user found" });
         } else {
             res.json({ message: "success", user: response });
         }
     });
 });
-
-
-
-
-
 
 //route that returns all the user's courses
 
@@ -145,12 +209,6 @@ app.post("/attemptlogin", jsonParser, (req, res) => {
 //requirements based on majors
 //^ comes from GT CS degree info
 //setup POST, GET, PUT
-
-
-
-app.get("/", (req, res) => {
-    //insert homepage
-});
 
 const port = process.env.PORT || 8000;
 app.listen(port, (err) => {
