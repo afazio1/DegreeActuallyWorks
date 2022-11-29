@@ -1,0 +1,33 @@
+table {
+    width: 100%;
+    box-shadow: 4px 4px 18px 0 rgba(0, 0, 0, 50%);
+    border-collapse: collapse;
+}
+
+tr th {
+    text-align: center;
+    margin: 0;
+    padding: 15px 0;
+}
+
+tr td {
+    text-align: center;
+    margin: 0;
+    padding: 5px 0;
+}
+
+td:first-child, th:first-child {
+    padding-left: 20px;
+}
+
+td:last-child, th:last-child {
+    padding-right: 20px;
+}
+
+tr.row-in-progress {
+    background-color: #C6E7FF;
+}
+
+tr:last-child td {
+    padding-bottom: 15px;
+}
