@@ -13,6 +13,11 @@ const notFoundError = {
     message: 'There is an error in the database. See server log for more info.'
 }, serverError = {
     message: "An error occurred on the server's end. See server log for more info."
+};
+
+const allowCORS = res => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 }
 
 connectDB();
@@ -31,6 +36,7 @@ connectDB();
 
 app.get('/course', async (req, res) => {
     await Course.find({}, (err, result) => {
+        allowCORS(res)
         if (err) {  // This is repetitive. We should have better error handling ~Cynthia
             console.log("There was an error processing request from endpoint /course")
         } else if (!result) {
@@ -47,6 +53,7 @@ app.get('/course', async (req, res) => {
 
 app.get("/course/:courseID", async (req, res) => { //access user_id with req.params.user_id
     await Course.findOne({ _id: req.params.courseID }, (err, result) => {
+        allowCORS(res)
         if (err) {
             console.log("There was an error processing request from endpoint /course/:courseID");
             console.log(err)
@@ -65,8 +72,7 @@ app.get("/course/:courseID", async (req, res) => { //access user_id with req.par
 
 app.get("/student/:GTID", async (req, res) => {
     const student = await Student.findOne({ _id: req.params.GTID });
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    allowCORS(res)
     res.json(student);
 })
 
@@ -136,11 +142,6 @@ app.post("/attemptlogin", jsonParser, (req, res) => {
         }
     });
 });
-
-
-
-
-
 
 //route that returns all the user's courses
 
