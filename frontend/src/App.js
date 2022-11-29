@@ -10,7 +10,7 @@ export default function App() {
     const [user, setUser] = useState([]);
 
     const getUser = () => {
-        axios.get("http://localhost:8000/student/938253473")
+        axios.get("http://localhost:8000/student/665806052")
             .then(response => {
                 console.log(response.data)
                 setUser([response.data])
@@ -29,7 +29,7 @@ export default function App() {
                 <div id="container">
                     <Routes>
                         <Route path="/" element={<HomePage />} />
-                        <Route path="/user" element={<UserPage />} />
+                        <Route path="/user" element={<UserPage user={user[0]} />} />
                         <Route path="/course/:courseId" />
                         <Route path="/junior-design-options" />
                     </Routes>

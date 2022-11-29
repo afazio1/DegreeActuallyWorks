@@ -13,7 +13,9 @@ class HomePage extends React.Component {
                 <TableOfContents title="Table of Contents">
                     <p toRef={this.state.testRef}>Click me</p>
                 </TableOfContents>
-                <h1 ref={this.state.testRef}>TestH1</h1>
+                <h1 className="main-title" ref={this.state.testRef}>Degree<em>Actually</em>Works!</h1>
+                <p>Where Georgia Tech students gather to view their classes and degree requirements!</p>
+
             </>
         )
     }
