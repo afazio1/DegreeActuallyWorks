@@ -98,7 +98,7 @@ app.post("/createstudent", async (req, res) => {
             newStudent.save();
             response = "New student added successfully!";
         }
-        console.log(response);
+        // console.log(response);
         res.send({ message: response });
     });
 });
@@ -122,7 +122,7 @@ app.post("/createcourse", async (req, res) => {
             newCourse.save();
             response = "New course added successfully!";
         }
-        console.log(response);
+        // console.log(response);
         res.send({ message: response });
     });
 });
